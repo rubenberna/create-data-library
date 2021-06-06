@@ -451,7 +451,29 @@ var _default = (() => {
 })();
 
 exports.default = _default;
-},{}],"../hooks/useStartProject.js":[function(require,module,exports) {
+},{}],"../utils/tryCatch.util.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.tryCatchWrapper = void 0;
+
+var _steps = require("../consts/steps.consts");
+
+const tryCatchWrapper = async (asyncFunc, args, updateSteps, step) => {
+  try {
+    const res = await asyncFunc(args);
+    updateSteps && updateSteps((0, _steps.getStepsDetails)(step));
+    return res;
+  } catch (e) {
+    console.log(e);
+    updateSteps((0, _steps.getStepsDetails)(step, false));
+  }
+};
+
+exports.tryCatchWrapper = tryCatchWrapper;
+},{"../consts/steps.consts":"../consts/steps.consts.js"}],"../hooks/useStartProject.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -464,6 +486,8 @@ var _connectToFeed = require("../utils/connectToFeed");
 var _steps = require("../consts/steps.consts");
 
 var _createLibrary = _interopRequireDefault(require("../utils/createLibrary.js"));
+
+var _tryCatch = require("../utils/tryCatch.util");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -496,8 +520,7 @@ const useStartProject = (name, packageManager, setLoadingMsg, updateSteps, setCo
     const os = process.platform;
 
     if (os === 'win32') {
-      await (0, _connectToFeed.installVstsAuth)();
-      updateSteps((0, _steps.getStepsDetails)(_steps.STEPS.NPMRC));
+      await (0, _tryCatch.tryCatchWrapper)(_connectToFeed.installVstsAuth, undefined, updateSteps, _steps.STEPS.NPMRC);
       setLoadingMsg(undefined);
     } else {
       updateSteps((0, _steps.getStepsDetails)(_steps.STEPS.NPMRC, false, 'You are not a Windows user. Please check how to connect to the Azure feed here: https://docs.microsoft.com/en-us/azure/devops/artifacts/npm/npmrc?view=azure-devops#set-up-authentication-on-your-dev-box'));
@@ -507,9 +530,7 @@ const useStartProject = (name, packageManager, setLoadingMsg, updateSteps, setCo
 
   const createDir = async () => {
     setLoadingMsg('Creating directory');
-    const opts = await _createLibrary.default.createDir(promptDetails);
-    updateSteps((0, _steps.getStepsDetails)(_steps.STEPS.MAKE_DIR, true, `Created directory ${promptDetails.name}`));
-    return opts;
+    return await (0, _tryCatch.tryCatchWrapper)(_createLibrary.default.createDir, promptDetails, updateSteps, _steps.STEPS.MAKE_DIR);
   };
 
   const copyTemplate = async ({
@@ -519,7 +540,7 @@ const useStartProject = (name, packageManager, setLoadingMsg, updateSteps, setCo
     info
   }) => {
     setLoadingMsg('Copying template');
-    const promises = files.map(async file => await _createLibrary.default.copyTemplate({
+    const promises = files.map(async file => await (0, _tryCatch.tryCatchWrapper)(_createLibrary.default.copyTemplate, {
       file,
       source,
       dest,
@@ -531,17 +552,15 @@ const useStartProject = (name, packageManager, setLoadingMsg, updateSteps, setCo
 
   const installDependencies = async (dest, info) => {
     setLoadingMsg('Installing dependencies in root');
-    await _createLibrary.default.initPackagesRoot({
+    await (0, _tryCatch.tryCatchWrapper)(_createLibrary.default.initPackagesRoot, {
       dest,
       info
-    });
-    updateSteps((0, _steps.getStepsDetails)(_steps.STEPS.INSTALL_ROOT));
+    }, updateSteps, _steps.STEPS.INSTALL_ROOT);
     setLoadingMsg('Installing dependencies in workbench');
-    await _createLibrary.default.initPackagesWorkbench({
+    await (0, _tryCatch.tryCatchWrapper)(_createLibrary.default.initPackagesWorkbench, {
       dest,
       info
-    });
-    return updateSteps((0, _steps.getStepsDetails)(_steps.STEPS.INSTALL_WORKBENCH));
+    }, updateSteps, _steps.STEPS.INSTALL_ROOT);
   };
 
   const finish = () => {
@@ -556,7 +575,7 @@ const useStartProject = (name, packageManager, setLoadingMsg, updateSteps, setCo
 };
 
 exports.useStartProject = useStartProject;
-},{"../utils/connectToFeed":"../utils/connectToFeed.js","../consts/steps.consts":"../consts/steps.consts.js","../utils/createLibrary.js":"../utils/createLibrary.js"}],"index.js":[function(require,module,exports) {
+},{"../utils/connectToFeed":"../utils/connectToFeed.js","../consts/steps.consts":"../consts/steps.consts.js","../utils/createLibrary.js":"../utils/createLibrary.js","../utils/tryCatch.util":"../utils/tryCatch.util.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
