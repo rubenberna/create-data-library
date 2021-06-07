@@ -238,15 +238,15 @@ const SuccessMsg = ({
   }, /*#__PURE__*/_react.default.createElement(_ink.Text, null, /*#__PURE__*/_react.default.createElement(_ink.Text, {
     italic: true
   }, "To start your project:"), /*#__PURE__*/_react.default.createElement(_ink.Newline, null), /*#__PURE__*/_react.default.createElement(_ink.Text, null, "cd ", /*#__PURE__*/_react.default.createElement(_ink.Text, {
-    color: "#006064",
+    color: "green",
     bold: true
   }, name)), /*#__PURE__*/_react.default.createElement(_ink.Newline, null), /*#__PURE__*/_react.default.createElement(_ink.Text, {
-    color: "#006064",
+    color: "green",
     bold: true
   }, packageManager, " start"), /*#__PURE__*/_react.default.createElement(_ink.Newline, null), /*#__PURE__*/_react.default.createElement(_ink.Newline, null), /*#__PURE__*/_react.default.createElement(_ink.Text, {
     italic: true
   }, "To publish your project:"), /*#__PURE__*/_react.default.createElement(_ink.Newline, null), /*#__PURE__*/_react.default.createElement(_ink.Text, {
-    color: "#006064",
+    color: "green",
     bold: true
   }, packageManager, " publish"), /*#__PURE__*/_react.default.createElement(_ink.Newline, null), /*#__PURE__*/_react.default.createElement(_ink.Newline, null), /*#__PURE__*/_react.default.createElement(_ink.Text, {
     italic: true
