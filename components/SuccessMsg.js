@@ -11,14 +11,14 @@ export const SuccessMsg = ({name, packageManager, completed}) => {
           <Text>
             <Text italic>To start your project:</Text>
             <Newline/>
-            <Text>cd <Text color="#006064" bold>{name}</Text></Text>
+            <Text>cd <Text color="green" bold>{name}</Text></Text>
             <Newline />
-            <Text color="#006064" bold>{packageManager} start</Text>
+            <Text color="green" bold>{packageManager} start</Text>
             <Newline />
             <Newline />
             <Text italic>To publish your project:</Text>
             <Newline/>
-            <Text color="#006064" bold>{packageManager} publish</Text>
+            <Text color="green" bold>{packageManager} publish</Text>
             <Newline />
             <Newline />
             <Text italic>"If you build it, they will come!"</Text>
