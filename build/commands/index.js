@@ -609,7 +609,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 /// Name your project command
 const App = ({
-  name
+  inputArgs
 }) => {
   const {
     exit
@@ -618,6 +618,7 @@ const App = ({
   const [loadingMsg, setLoadingMsg] = (0, _react.useState)(undefined);
   const [steps, setSteps] = (0, _react.useState)([]);
   const [completed, setCompleted] = (0, _react.useState)(false);
+  const name = inputArgs[0];
 
   const updateSteps = newStep => {
     setSteps(previousSteps => [...previousSteps, newStep]);
@@ -652,7 +653,7 @@ const App = ({
 
 App.propTypes = {
   /// Name of your project
-  name: _propTypes.default.string.isRequired
+  inputArgs: _propTypes.default.array
 };
 var _default = App;
 exports.default = _default;
